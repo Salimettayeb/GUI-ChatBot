@@ -5,9 +5,9 @@
 
 :root
 {
-  --bg-header-chatbot-box-message : #fd751e;
-  --bg-chatbot-icon-container : #fd751e;
-  --chatbot-scrollbar-color :   #ed935f;
+  --bg-header-chatbot-box-message : #3e4652;
+  --bg-chatbot-icon-container : #3e4652;
+  --chatbot-scrollbar-color :   #3e4652;
   --color-header-chatbot-box-message : white;
   --bg-textbox : white;
   --color-user-message : black;
