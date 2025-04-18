@@ -16,5 +16,5 @@ export class AppComponent {
     chatbotIcon : '../assets/icons/chatbot.svg',
     userIcon : '../assets/icons/user.svg'
   };
-  basePath : string = 'http://localhost:3800/message';
+  basePath : string = 'http://localhost:8000/ask';
 }

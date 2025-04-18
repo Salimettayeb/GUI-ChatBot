@@ -43,32 +43,32 @@ export class ChatbotTextboxComponent {
     this.closeChatbot.emit();
   }
 
-  onSendForm() : void
-  {
-    if(this.inputText !=undefined)
-    {
-      this.listOfMessages.push({role : 'user' , content : <string>this.inputText});
-      this.inputText = undefined;
-      this.waitingResponse = true;
-      //Remove the welcome message
-      const request : ChatbotRequest = {model : "gpt-3.5-turbo" , messages : this.listOfMessages.slice(1)};
-      //Do the call
-      this.http.post<ChatbotResponse>(this.basePath , request)
-      .subscribe({
-        next : (res : ChatbotResponse) =>{
-          this.waitingResponse = false;
-          if(res.content)
-          {
-            this.listOfMessages.push({role : 'assistant' , content : res.content});
-          }
-        },
-        error : (err : any) =>{
-          this.waitingResponse = false;
-          this.errorResponse = true;
-          this.listOfMessages.push({role : 'assistant' , content : this.errorMessage});
+onSendForm(): void {
+  if (this.inputText) {
+    // Add user's message to UI
+    const questionText = this.inputText;
+    this.inputText = undefined;
+    this.waitingResponse = true;
+
+    // Create the FastAPI payload
+    const requestPayload = { question: questionText };
+
+    // Send to FastAPI
+    this.http.post<{ response: string }>(this.basePath, requestPayload).subscribe({
+      next: (res) => {
+        this.waitingResponse = false;
+        if (res.response) {
+          this.listOfMessages.push({ role: 'assistant', content: res.response });
         }
-      });
-    }
+      },
+      error: (err) => {
+        this.waitingResponse = false;
+        this.errorResponse = true;
+        this.listOfMessages.push({ role: 'assistant', content: this.errorMessage });
+        console.error('Error from FastAPI:', err);
+      }
+    });
   }
+}
 
 }
